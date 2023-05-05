@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import styled from "@emotion/styled";
 
 import "./App.css";
 
@@ -59,6 +60,28 @@ PokemonInfo.propTypes = {
 	}),
 };
 
+const Title = styled.h1`
+	text-align: center;
+`;
+
+const Container = styled.div`
+	margin: auto;
+	width: 800px;
+	paddingtop: 1rem;
+`;
+
+const TwoColumnLayout = styled.div`
+	display: grid;
+	grid-template-columns: 70% 30%;
+	column-gap: 1rem;
+`;
+
+const InputTextField = styled.input`
+	width: 100%;
+	font-size: x-large;
+	padding: 0.2rem;
+`;
+
 function App() {
 	// filtering the pokemon
 	const [filter, filterSet] = useState("");
@@ -78,24 +101,15 @@ function App() {
 	}, []);
 
 	return (
-		<div
-			style={{
-				margin: "auto",
-				width: 800,
-				paddingTop: "1rem",
-			}}
-		>
-			<h1 className="title">Pokemon Search</h1>
+		<Container>
+			<Title className="title">Pokemon Search</Title>
 			{/* input field to search pokemon */}
-			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "70% 30%",
-					columnGap: "1rem",
-				}}
-			>
+			<TwoColumnLayout>
 				<div>
-					<input value={filter} onChange={(e) => filterSet(e.target.value)} />
+					<InputTextField
+						value={filter}
+						onChange={(e) => filterSet(e.target.value)}
+					/>
 					{/* pokemon table */}
 					<table width="100%">
 						<thead>
@@ -123,8 +137,8 @@ function App() {
 					</table>
 				</div>
 				{selectedItem && <PokemonInfo {...selectedItem} />}
-			</div>
-		</div>
+			</TwoColumnLayout>
+		</Container>
 	);
 }
 
