@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import "./App.css";
-
-// pokemon.json
-import pokemon from "./Pokemon.json";
 
 // PokemonRow component
 const PokemonRow = ({ pokemon, onSelect }) => {
@@ -66,8 +63,19 @@ function App() {
 	// filtering the pokemon
 	const [filter, filterSet] = useState("");
 
+	// pokemon values
+	const [pokemon, pokemonSet] = useState([]);
+
 	// selecting the selected pokemon
 	const [selectedItem, selectedItemSet] = useState(null);
+
+	// use useEffect to get the pokemon data and represent it to the UI
+	useEffect(() => {
+		fetch("http://localhost:3000/pokemon.json")
+			.then((resp) => resp.json())
+			.then((data) => pokemonSet(data))
+			.catch((e) => console.log(e));
+	}, []);
 
 	return (
 		<div
