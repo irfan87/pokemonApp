@@ -3,17 +3,34 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 
 import "./App.css";
+import {
+	Button,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+} from "@mui/material";
 
 // PokemonRow component
 const PokemonRow = ({ pokemon, onSelect }) => {
 	return (
-		<tr>
-			<td>{pokemon.name.english}</td>
-			<td>{pokemon.type.join(", ")}</td>
-			<td>
-				<button onClick={() => onSelect(pokemon)}>Select</button>
-			</td>
-		</tr>
+		<TableRow>
+			<TableCell>{pokemon.name.english}</TableCell>
+			<TableCell>{pokemon.type.join(", ")}</TableCell>
+			<TableCell>
+				<Button
+					onClick={() => onSelect(pokemon)}
+					variant="outlined"
+					size="small"
+					color="secondary"
+				>
+					Select
+				</Button>
+			</TableCell>
+		</TableRow>
 	);
 };
 
@@ -72,7 +89,7 @@ const Container = styled.div`
 
 const TwoColumnLayout = styled.div`
 	display: grid;
-	grid-template-columns: 70% 30%;
+	grid-template-columns: 90% 1%;
 	column-gap: 1rem;
 `;
 
@@ -111,30 +128,42 @@ function App() {
 						onChange={(e) => filterSet(e.target.value)}
 					/>
 					{/* pokemon table */}
-					<table width="100%">
-						<thead>
-							<tr>
-								<th>Name (ENG)</th>
-								<th>Type</th>
-							</tr>
-						</thead>
-						<tbody>
-							{pokemon
-								.filter((pokemon) =>
-									pokemon.name.english
-										.toLowerCase()
-										.includes(filter.toLowerCase())
-								)
-								.slice(0, 20)
-								.map((pokemon) => (
-									<PokemonRow
-										key={pokemon.id}
-										pokemon={pokemon}
-										onSelect={(pokemon) => selectedItemSet(pokemon)}
-									/>
-								))}
-						</tbody>
-					</table>
+					<TableContainer
+						component={Paper}
+						sx={{ marginTop: 5, marginBottom: 5 }}
+					>
+						<Table
+							stickyHeader
+							sx={{
+								minWidth: 650,
+								maxHeight: 440,
+							}}
+						>
+							<TableHead>
+								<TableRow>
+									<TableCell>Name (ENG)</TableCell>
+									<TableCell>Type</TableCell>
+									<TableCell>Action</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{pokemon
+									.filter((pokemon) =>
+										pokemon.name.english
+											.toLowerCase()
+											.includes(filter.toLowerCase())
+									)
+									.slice(0, 20)
+									.map((pokemon) => (
+										<PokemonRow
+											key={pokemon.id}
+											pokemon={pokemon}
+											onSelect={(pokemon) => selectedItemSet(pokemon)}
+										/>
+									))}
+							</TableBody>
+						</Table>
+					</TableContainer>
 				</div>
 				{selectedItem && <PokemonInfo {...selectedItem} />}
 			</TwoColumnLayout>
