@@ -1,7 +1,28 @@
+import PropTypes from "prop-types";
+
 import "./App.css";
 
 // pokemon.json
 import pokemon from "./Pokemon.json";
+
+// PokemonRow component
+const PokemonRow = ({ pokemon }) => {
+	return (
+		<tr>
+			<td>{pokemon.name.english}</td>
+			<td>{pokemon.type.join(", ")}</td>
+		</tr>
+	);
+};
+
+PokemonRow.propTypes = {
+	pokemon: PropTypes.shape({
+		name: PropTypes.shape({
+			english: PropTypes.string,
+		}),
+		type: PropTypes.arrayOf(PropTypes.string),
+	}),
+};
 
 function App() {
 	return (
@@ -23,10 +44,7 @@ function App() {
 				</thead>
 				<tbody>
 					{pokemon.slice(0, 20).map((pokemon) => (
-						<tr key={pokemon.id}>
-							<td>{pokemon.name.english}</td>
-							<td>{pokemon.type.join(", ")}</td>
-						</tr>
+						<PokemonRow key={pokemon.id} pokemon={pokemon} />
 					))}
 				</tbody>
 			</table>
